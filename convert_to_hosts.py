@@ -45,5 +45,5 @@ print("Parsed hosts: " + str(hosts))
 # Write to file
 with open("mpi.hosts", "w") as f:
     for host in hosts:
-        f.write(host + " max-slots=" + core_count + "\n")
+        f.write(host + ":" + core_count + "\n")
 

@@ -8,12 +8,13 @@
 #SBATCH --partition=cpu
 
 # Feel free to replace with an input argument grabber here
-DATA_PATH="/camp"
+DATA_PATH="./BR_200710_2579um.raw"
 ENV_PATH="./spyking_env"
+QT_DEBUG_PLUGINS=1
 
 # Load our environment prerequisites
-ml Ananconda2
-ml OpenMPI/2.1.1-GCC-6.4.0-2.28
+ml Anaconda2/2019.03
+ml X11
 
 # Activate our environment
 source $(conda info --json | awk '/conda_prefix/ { gsub(/"|,/, "", $2); print $2 }')/bin/activate ${ENV_PATH}
@@ -22,5 +23,5 @@ source $(conda info --json | awk '/conda_prefix/ { gsub(/"|,/, "", $2); print $2
 python convert_to_hosts.py $SLURM_NODELIST $SLURM_CPUS_PER_TASK
 
 # Run spyking-circus
-spyking-circus $DATA_PATH -H mpi.hosts
+spyking-circus $DATA_PATH -H mpi.hosts -c $SLURM_CPUS_PER_TASK
 
